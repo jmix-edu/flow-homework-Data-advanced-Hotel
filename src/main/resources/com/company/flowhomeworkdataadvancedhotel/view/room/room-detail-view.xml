@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://roomDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="roomDc"
+                  class="com.company.flowhomeworkdataadvancedhotel.entity.Room">
+            <fetchPlan extends="_base"/>
+            <loader/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <formLayout id="form" dataContainer="roomDc">
+            <textField id="numberField" property="number"/>
+            <textField id="floorField" property="floor"/>
+            <textField id="squareMetersField" property="squareMeters"/>
+            <textField id="sleepingPlacesField" property="sleepingPlaces"/>
+            <checkbox id="safeDepositField" property="safeDeposit"/>
+            <checkbox id="niceViewFromWindowField" property="niceViewFromWindow"/>
+            <checkbox id="quietField" property="quiet"/>
+            <checkbox id="minibarField" property="minibar"/>
+            <checkbox id="airConditionerField" property="airConditioner"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>

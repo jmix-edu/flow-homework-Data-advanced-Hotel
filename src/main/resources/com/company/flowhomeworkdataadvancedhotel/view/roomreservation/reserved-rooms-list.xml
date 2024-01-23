@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://reservedRoomsList.title"
+      focusComponent="roomReservationsDataGrid">
+    <data>
+        <collection id="roomReservationsDc"
+                    class="com.company.flowhomeworkdataadvancedhotel.entity.RoomReservation">
+            <fetchPlan extends="_base">
+                <property name="booking" fetchPlan="_base">
+                    <property name="client" fetchPlan="_base"/>
+                </property>
+                <property name="room" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="roomReservationsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from RoomReservation e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="roomReservationsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="refreshBtn" action="roomReservationsDataGrid.refresh"/>
+            <button id="roomReservationsTableViewClientBtn" action="roomReservationsDataGrid.viewClientEmail"/>
+            <simplePagination id="pagination" dataLoader="roomReservationsDl"/>
+        </hbox>
+        <dataGrid id="roomReservationsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="roomReservationsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="refresh" type="list_refresh"/>
+                <action id="viewClientEmail" text="View client email" type="list_itemTracking"/>
+            </actions>
+            <columns>
+                <column property="room"/>
+                <column property="room.floor"/>
+                <column property="booking.arrivalDate"/>
+                <column property="booking.departureDate"/>
+                <column property="booking.numberOfGuests"/>
+                <column property="booking.client"/>
+                <column property="booking.client.telephone"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>

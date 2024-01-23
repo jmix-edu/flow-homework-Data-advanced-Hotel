@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://bookingListView.title"
+      focusComponent="bookingsDataGrid">
+    <data>
+        <collection id="bookingsDc"
+                    class="com.company.flowhomeworkdataadvancedhotel.entity.Booking">
+            <fetchPlan extends="_base">
+                <property name="client" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="bookingsDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Booking e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <genericFilter id="genericFilter"
+                       dataLoader="bookingsDl">
+            <properties include=".*"/>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createBtn" action="bookingsDataGrid.create"/>
+            <button id="editBtn" action="bookingsDataGrid.edit"/>
+            <button id="cancelBtn" action="bookingsDataGrid.cancel"/>
+            <simplePagination id="pagination" dataLoader="bookingsDl"/>
+        </hbox>
+        <dataGrid id="bookingsDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="bookingsDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="create" type="list_create"/>
+                <action id="edit" type="list_edit"/>
+                <action id="cancel" text="msg://cancelBooking.text"
+                        type="list_itemTracking"/>
+            </actions>
+            <columns resizable="true">
+                <column property="client"/>
+                <column property="numberOfGuests"/>
+                <column property="arrivalDate"/>
+                <column property="nightsOfStay"/>
+                <column property="departureDate"/>
+                <column property="status"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectBtn" action="selectAction"/>
+            <button id="discardBtn" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
